@@ -126,6 +126,6 @@ loadstring(game:HttpGet("https://raw.githubusercontent.com/newredz/BloxFruits/re
      AddButton(Tab4o, {
      Name = "tuitaonahez",
     Callback = function()
-	  https://raw.githubusercontent.com/myyounotcome/ss-/refs/heads/main/deathrell
+	  loadstring(game:HttpGet("https://raw.githubusercontent.com/myyounotcome/a/refs/heads/main/sa"))()
   end
   })
