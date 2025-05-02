@@ -30,10 +30,14 @@ loadstring(game:HttpGet(("https://raw.githubusercontent.com/daucobonhi/Ui-Redz-V
       })
       
 ------ Tab
-     local Tab1o = MakeTab({Name = "MAIN"})
+     local Tab1o = MakeTab({Name = "scrpit"})
+     local Tab2o = MakeTab({Name = "slap blatte"})
+     local Tab3o = MakeTab({Name = "blox fruit"})
+     local Tab4o = MakeTab({Name = "death reath"})
+     
      
 ------- BUTTON
-     
+    
     AddButton(Tab1o, {
      Name = "FIX LAG",
     Callback = function()
@@ -45,8 +49,83 @@ loadstring(game:HttpGet(("https://raw.githubusercontent.com/daucobonhi/Ui-Redz-V
     Callback = function()
 	  loadstring(game:HttpGet("https://raw.githubusercontent.com/AZYsGithub/chillz-workshop/main/Arceus%20X%20V3"))()
   end
-     AddButton(Tab1o, {
-     Name = "bugnhandoikhoekolaydc",
+  })
+     AddButton(Tab2o, {
+     Name = "slap farm1",
     Callback = function()
-	  loadstring(game:HttpGet("https://raw.githubusercontent.com/ScriptBeLike/Tera-The-Scripter-Deadrails/refs/heads/main/DUPE%20BOND%2CGOLD%2CAMMO"))()
+	  loadstring(game:HttpGet("https://scriptblox.com/raw/Slap-Battles-Open-source-for-9484"))()
   end
+  })
+     AddButton(Tab2o, {
+     Name = "slap farm2",
+    Callback = function()
+	  loadstring(game:HttpGet("https://raw.githubusercontent.com/Scripter-Coder/Scripter-Coder/refs/heads/main/Slap%20Battles/Slap%20Battles%20Hub%20OP%20V.%201"))()
+  end
+  })
+     AddButton(Tab2o, {
+     Name = "slap farm3",
+    Callback = function()
+	  loadstring(game:HttpGet("https://raw.githubusercontent.com/AquoupiRblx/SlapBattles/main/DestroyerX.lua", true))()
+  end
+  })
+     AddButton(Tab3o, {
+     Name = "red hubs",
+    Callback = function()
+local Settings = {
+  JoinTeam = "Pirates"; -- Pirates/Marines
+  Translator = true; -- true/false
+}
+
+loadstring(game:HttpGet("https://raw.githubusercontent.com/newredz/BloxFruits/refs/heads/main/Source.luau"))(Settings)
+  end
+  })
+     AddButton(Tab3o, {
+     Name = "Menu Gangten Hub",
+    Callback = function()
+	  loadstring(game:HttpGet("https://api.luarmor.net/files/v3/loaders/a5c3af437cd698d64379cf75cacb9281.lua"))()
+  end
+  })
+     AddButton(Tab2o, {
+     Name = "admin slap",
+    Callback = function()
+	  loadstring("\108\111\97\100\115\116\114\105\110\103\40\103\97\109\101\58\72\116\116\112\71\101\116\40\34\104\116\116\112\115\58\47\47\114\97\119\46\103\105\116\104\117\98\117\115\101\114\99\111\110\116\101\110\116\46\99\111\109\47\67\108\117\100\101\72\117\98\47\71\97\109\101\83\99\114\105\112\116\47\114\101\102\115\47\104\101\97\100\115\47\109\97\105\110\47\65\100\109\105\110\105\115\116\114\97\116\105\111\110\65\100\109\105\110\71\101\110\101\114\97\116\111\114\34\41\41\40\41")()
+  end
+  })
+     AddButton(Tab2o, {
+     Name = "dual slap farm no Invisible",
+    Callback = function()
+	  _G.Invisible = false -- Set to true if you have 666 slaps
+          loadstring(game:HttpGet('https://pastefy.app/wFnuJXam/raw'))()
+  end
+  })
+     AddButton(Tab2o, {
+     Name = "adual slap farm Invisible",
+    Callback = function()
+	  _G.Invisible = true -- Set to true if you have 666 slaps
+          loadstring(game:HttpGet('https://pastefy.app/wFnuJXam/raw'))()
+  end
+  })
+     AddButton(Tab2o, {
+     Name = "script aura",
+    Callback = function()
+	  loadstring(game:HttpGet("https://raw.githubusercontent.com/AquoupiRblx/SlapBattles/refs/heads/main/SlapAuraGiver.lua"))()
+  end
+  })
+     AddButton(Tab2o, {
+     Name = "mastry slapv1",
+    Callback = function()
+	  loadstring(game:HttpGet("https://raw.githubusercontent.com/0-BaconScripter-0/Script/refs/heads/main/Slap%20Battles/Mastery%20Farm"))()
+  end
+  })
+     AddButton(Tab4o, {
+     Name = "zingmobtonghop",
+    Callback = function()
+	  loadstring(game:HttpGet("https://raw.githubusercontent.com/vinh12eqweaws/zingmod/refs/heads/main/zingmod"))()
+  end
+  })
+     AddButton(Tab4o, {
+     Name = "ninhhubv1",
+    Callback = function()
+	  loadstring(game:HttpGet("https://raw.githubusercontent.com/myyounotcome/a/refs/heads/main/sa"))()
+  end
+  })
