@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <title>Ultimate Lua Obfuscator</title>
+    <style>
+        body { font-family: 'Segoe UI', sans-serif; background: #0b0e14; color: #cfd8dc; padding: 20px; }
+        .box { max-width: 850px; margin: auto; background: #151921; padding: 25px; border-radius: 15px; border: 1px solid #2e3c50; box-shadow: 0 8px 32px rgba(0,0,0,0.8); }
+        h2 { color: #4fc3f7; text-align: center; text-transform: uppercase; letter-spacing: 2px; }
+        textarea { width: 100%; height: 200px; background: #1c232d; color: #81c784; border: 1px solid #37474f; border-radius: 10px; padding: 15px; box-sizing: border-box; font-family: 'Consolas', monospace; font-size: 13px; outline: none; }
+        button { width: 100%; background: #0288d1; color: white; border: none; padding: 15px; cursor: pointer; border-radius: 10px; font-weight: bold; margin-top: 20px; transition: 0.3s; }
+        button:hover { background: #03a9f4; box-shadow: 0 0 15px rgba(3,169,244,0.5); }
+        label { display: block; margin-bottom: 10px; color: #90a4ae; }
+    </style>
+</head>
+<body>
+
+<div class="box">
+    <h2>🔐 Ultimate Obfuscator</h2>
+    
+    <label>Nhập Script Lua gốc:</label>
+    <textarea id="inputCode" placeholder="print('Hello World')"></textarea>
+
+    <button onclick="obfuscate()">MÃ HÓA & BẢO MẬT</button>
+
+    <div style="margin-top: 30px;">
+        <label>Kết quả (Dán vào Roblox):</label>
+        <textarea id="outputResult" readonly></textarea>
+    </div>
+</div>
+
+<script>
+    function obfuscate() {
+        const code = document.getElementById('inputCode').value;
+        if (!code) return alert("Vui lòng nhập code!");
+
+        const randomKey = Array.from({length: 8}, () => Math.floor(Math.random() * 255) + 1);
+        
+        let encrypted = [];
+        for (let i = 0; i < code.length; i++) {
+            let charCode = code.charCodeAt(i) ^ randomKey[i % randomKey.length];
+            encrypted.push(charCode);
+        }
+
+        const result = 
+`local _0x5f2 = {${encrypted.join(",")}}
+local _0x1a2 = {${randomKey.join(",")}}
+local _0x99 = ""
+for _0x1=1, #_0x5f2 do
+    _0x99 = _0x99 .. string.char(bit32.bxor(_0x5f2[_0x1], _0x1a2[(_0x1-1) % #_0x1a2 + 1]))
+end
+local _0xLoad = getfenv().loadstring or loadstring
+_0xLoad(_0x99)()`
+
+        document.getElementById('outputResult').value = result;
+    }
+</script>
+
+</body>
+</html>
