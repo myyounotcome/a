@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<title>Lua Roblox Obfuscator</title>
+
+<style>
+body {
+    background:#0b0e14;
+    color:#cfd8dc;
+    font-family: Consolas, monospace;
+    padding:20px;
+}
+
+textarea {
+    width:100%;
+    height:220px;
+    background:#111827;
+    color:#00ffcc;
+    border:1px solid #334155;
+    padding:10px;
+}
+
+button {
+    margin-top:10px;
+    padding:10px 16px;
+    background:#2563eb;
+    color:white;
+    border:none;
+    cursor:pointer;
+}
+
+button:hover {
+    background:#1d4ed8;
+}
+</style>
+</head>
+
+<body>
+
+<h2>🔐 Lua Roblox Obfuscator (Hard Mode)</h2>
+
+<p>Lua gốc:</p>
+<textarea id="input"></textarea>
+
+<button onclick="obfuscate()">MÃ HOÁ</button>
+
+<p>Lua đã mã hoá:</p>
+<textarea id="output"></textarea>
+
+<script>
+function obfuscate() {
+    let code = document.getElementById("input").value;
+    if (!code.trim()) return;
+
+    let bytes = [];
+    for (let i = 0; i < code.length; i++) {
+        bytes.push(code.charCodeAt(i) + 3);
+    }
+
+    function rand(n=8){
+        return Array.from({length:n},()=>String.fromCharCode(97+Math.random()*26|0)).join("");
+    }
+
+    let a = rand(), b = rand(), c = rand(), d = rand();
+
+    let encoded = bytes.join(",");
+
+    let result = `
+local ${a}={${encoded}}
+local function ${b}()
+    local ${c}=""
+    for i=1,#${a} do
+        ${c}=${c}..string.char(${a}[i]-3)
+    end
+    return ${c}
+end
+
+local ${d}=(${b})()
+pcall(function()
+    loadstring(${d})()
+end)
+`;
+
+    document.getElementById("output").value = result.trim();
+}
+</script>
+
+</body>
+</html>
