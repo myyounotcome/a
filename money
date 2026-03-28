@@ -1,0 +1,319 @@
+-- Roblox LocalScript
+-- GUI ở phía trên giữa màn hình để theo dõi và tự động cộng tiến trình theo biến động Beli
+
+local Players = game:GetService("Players")
+local UserInputService = game:GetService("UserInputService")
+local player = Players.LocalPlayer
+local playerGui = player:WaitForChild("PlayerGui")
+
+local screenGui = Instance.new("ScreenGui")
+screenGui.Name = "BeliAutoGui"
+screenGui.ResetOnSpawn = false
+screenGui.Parent = playerGui
+
+local mainFrame = Instance.new("Frame")
+mainFrame.Name = "MainFrame"
+mainFrame.Size = UDim2.new(0, 420, 0, 190)
+mainFrame.Position = UDim2.new(0.5, -210, 0, 15)
+mainFrame.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+mainFrame.BorderSizePixel = 0
+mainFrame.Parent = screenGui
+
+local corner = Instance.new("UICorner")
+corner.CornerRadius = UDim.new(0, 10)
+corner.Parent = mainFrame
+
+local title = Instance.new("TextLabel")
+title.Size = UDim2.new(1, -35, 0, 30)
+title.BackgroundTransparency = 1
+title.Text = "Theo dõi Beli tự động"
+title.TextColor3 = Color3.fromRGB(255, 255, 255)
+title.Font = Enum.Font.GothamBold
+title.TextSize = 18
+title.Parent = mainFrame
+
+local closeBtn = Instance.new("TextButton")
+closeBtn.Name = "CloseBtn"
+closeBtn.Size = UDim2.new(0, 28, 0, 24)
+closeBtn.Position = UDim2.new(1, -31, 0, 3)
+closeBtn.BackgroundColor3 = Color3.fromRGB(175, 0, 0)
+closeBtn.Text = "X"
+closeBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
+closeBtn.Font = Enum.Font.GothamBold
+closeBtn.TextSize = 16
+closeBtn.Parent = mainFrame
+
+local closeCorner = Instance.new("UICorner")
+closeCorner.CornerRadius = UDim.new(0, 6)
+closeCorner.Parent = closeBtn
+
+local progressBg = Instance.new("Frame")
+progressBg.Name = "ProgressBg"
+progressBg.Size = UDim2.new(1, -30, 0, 20)
+progressBg.Position = UDim2.new(0, 15, 0, 40)
+progressBg.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
+progressBg.BorderSizePixel = 0
+progressBg.Parent = mainFrame
+
+local progressBar = Instance.new("Frame")
+progressBar.Name = "ProgressBar"
+progressBar.Size = UDim2.new(0, 0, 1, 0)
+progressBar.BackgroundColor3 = Color3.fromRGB(0, 170, 255)
+progressBar.BorderSizePixel = 0
+progressBar.Parent = progressBg
+
+local progressLabel = Instance.new("TextLabel")
+progressLabel.Size = UDim2.new(1, 0, 1, 0)
+progressLabel.BackgroundTransparency = 1
+progressLabel.Text = "0 / 0"
+progressLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
+progressLabel.Font = Enum.Font.GothamSemibold
+progressLabel.TextSize = 14
+progressLabel.Parent = progressBg
+
+local inputStart = Instance.new("TextBox")
+inputStart.Name = "StartInput"
+inputStart.PlaceholderText = "Số tiền bắt đầu"
+inputStart.Text = ""
+inputStart.Size = UDim2.new(1, -30, 0, 30)
+inputStart.Position = UDim2.new(0, 15, 0, 70)
+inputStart.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
+inputStart.TextColor3 = Color3.fromRGB(255, 255, 255)
+inputStart.Font = Enum.Font.Gotham
+inputStart.TextSize = 14
+inputStart.ClearTextOnFocus = false
+inputStart.Parent = mainFrame
+
+local inputEnd = Instance.new("TextBox")
+inputEnd.Name = "EndInput"
+inputEnd.PlaceholderText = "Số tiền kết thúc"
+inputEnd.Text = ""
+inputEnd.Size = UDim2.new(1, -30, 0, 30)
+inputEnd.Position = UDim2.new(0, 15, 0, 105)
+inputEnd.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
+inputEnd.TextColor3 = Color3.fromRGB(255, 255, 255)
+inputEnd.Font = Enum.Font.Gotham
+inputEnd.TextSize = 14
+inputEnd.ClearTextOnFocus = false
+inputEnd.Parent = mainFrame
+
+local configureBtn = Instance.new("TextButton")
+configureBtn.Name = "ConfigureBtn"
+configureBtn.Text = "Nút xanh: Nhập mốc tiền"
+configureBtn.Size = UDim2.new(0.5, -20, 0, 35)
+configureBtn.Position = UDim2.new(0, 15, 1, -45)
+configureBtn.BackgroundColor3 = Color3.fromRGB(0, 180, 0)
+configureBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
+configureBtn.Font = Enum.Font.GothamBold
+configureBtn.TextSize = 14
+configureBtn.Parent = mainFrame
+
+local startBtn = Instance.new("TextButton")
+startBtn.Name = "StartBtn"
+startBtn.Text = "Nút đỏ: BẮT ĐẦU"
+startBtn.Size = UDim2.new(0.5, -20, 0, 35)
+startBtn.Position = UDim2.new(0.5, 5, 1, -45)
+startBtn.BackgroundColor3 = Color3.fromRGB(200, 0, 0)
+startBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
+startBtn.Font = Enum.Font.GothamBold
+startBtn.TextSize = 14
+startBtn.Parent = mainFrame
+
+local statusLabel = Instance.new("TextLabel")
+statusLabel.Size = UDim2.new(1, -30, 0, 18)
+statusLabel.Position = UDim2.new(0, 15, 0, 145)
+statusLabel.BackgroundTransparency = 1
+statusLabel.Text = "Trạng thái: Chờ nhập dữ liệu"
+statusLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
+statusLabel.Font = Enum.Font.Gotham
+statusLabel.TextSize = 13
+statusLabel.TextXAlignment = Enum.TextXAlignment.Left
+statusLabel.Parent = mainFrame
+
+local startValue = 0
+local endValue = 0
+local trackedEarned = 0
+local configured = false
+local running = false
+local done = false
+local lastBeli = nil
+local dragging = false
+local dragStartPos = nil
+local frameStartPos = nil
+
+local function clampToTarget(value)
+    if value < 0 then
+        return 0
+    end
+    local need = endValue - startValue
+    if value > need then
+        return need
+    end
+    return value
+end
+
+local function updateProgress()
+    local goal = math.max(endValue - startValue, 0)
+    local current = clampToTarget(trackedEarned)
+
+    if goal == 0 then
+        progressBar.Size = UDim2.new(1, 0, 1, 0)
+        progressLabel.Text = string.format("%d / %d", current, goal)
+        return
+    end
+
+    local ratio = current / goal
+    progressBar.Size = UDim2.new(ratio, 0, 1, 0)
+    progressLabel.Text = string.format("%d / %d", current, goal)
+end
+
+local function findBeliValueObject()
+    -- Ưu tiên đường dẫn thường dùng: Players.LocalPlayer.Data.Beli
+    local dataFolder = player:FindFirstChild("Data")
+    if dataFolder then
+        local beli = dataFolder:FindFirstChild("Beli")
+        if beli then
+            return beli
+        end
+    end
+
+    -- Fallback theo yêu cầu: workspace.playerName.Data.Beli
+    local inWorkspace = workspace:FindFirstChild(player.Name)
+    if inWorkspace then
+        local data = inWorkspace:FindFirstChild("Data")
+        if data then
+            return data:FindFirstChild("Beli")
+        end
+    end
+
+    return nil
+end
+
+closeBtn.MouseButton1Click:Connect(function()
+    screenGui:Destroy()
+end)
+
+title.InputBegan:Connect(function(input)
+    if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
+        dragging = true
+        dragStartPos = input.Position
+        frameStartPos = mainFrame.Position
+    end
+end)
+
+title.InputEnded:Connect(function(input)
+    if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
+        dragging = false
+    end
+end)
+
+UserInputService.InputChanged:Connect(function(input)
+    if not dragging then
+        return
+    end
+    if input.UserInputType ~= Enum.UserInputType.MouseMovement and input.UserInputType ~= Enum.UserInputType.Touch then
+        return
+    end
+
+    local delta = input.Position - dragStartPos
+    mainFrame.Position = UDim2.new(
+        frameStartPos.X.Scale,
+        frameStartPos.X.Offset + delta.X,
+        frameStartPos.Y.Scale,
+        frameStartPos.Y.Offset + delta.Y
+    )
+end)
+
+configureBtn.MouseButton1Click:Connect(function()
+    local parsedStart = tonumber(inputStart.Text)
+    local parsedEnd = tonumber(inputEnd.Text)
+
+    if not parsedStart or not parsedEnd then
+        statusLabel.Text = "Trạng thái: Hãy nhập số hợp lệ cho cả 2 ô"
+        return
+    end
+
+    if parsedEnd < parsedStart then
+        statusLabel.Text = "Trạng thái: Tiền kết thúc không thể nhỏ hơn tiền bắt đầu"
+        return
+    end
+
+    startValue = math.floor(parsedStart)
+    endValue = math.floor(parsedEnd)
+    trackedEarned = 0
+    configured = true
+    done = false
+    running = false
+    startBtn.Visible = true
+    startBtn.Text = "Nút đỏ: BẮT ĐẦU"
+    startBtn.BackgroundColor3 = Color3.fromRGB(200, 0, 0)
+    statusLabel.Text = string.format("Trạng thái: Đã set từ %d đến %d", startValue, endValue)
+    updateProgress()
+end)
+
+startBtn.MouseButton1Click:Connect(function()
+    if done then
+        trackedEarned = 0
+        running = false
+        done = false
+        startBtn.Text = "Nút đỏ: BẮT ĐẦU"
+        startBtn.BackgroundColor3 = Color3.fromRGB(200, 0, 0)
+        statusLabel.Text = "Trạng thái: Đã khởi động lại, bấm BẮT ĐẦU để chạy"
+        updateProgress()
+        return
+    end
+
+    if not configured then
+        statusLabel.Text = "Trạng thái: Bấm nút xanh và nhập mốc tiền trước"
+        return
+    end
+
+    running = true
+    local beliObj = findBeliValueObject()
+    if not beliObj then
+        statusLabel.Text = "Trạng thái: Không tìm thấy workspace.player.(tên).Data.Beli"
+        return
+    end
+
+    lastBeli = beliObj.Value
+    statusLabel.Text = "Trạng thái: Đang theo dõi Beli..."
+end)
+
+task.spawn(function()
+    while screenGui.Parent do
+        task.wait(0.2)
+
+        if running and configured and not done then
+            local beliObj = findBeliValueObject()
+            if not beliObj then
+                statusLabel.Text = "Trạng thái: Mất Data.Beli, đang chờ..."
+                continue
+            end
+
+            if lastBeli == nil then
+                lastBeli = beliObj.Value
+            end
+
+            local currentBeli = beliObj.Value
+            local delta = currentBeli - lastBeli
+            if delta > 0 then
+                trackedEarned = trackedEarned + delta
+                updateProgress()
+            end
+            lastBeli = currentBeli
+
+            local goal = endValue - startValue
+            if trackedEarned >= goal then
+                trackedEarned = goal
+                updateProgress()
+                running = false
+                done = true
+                startBtn.Text = "Khởi động lại"
+                startBtn.BackgroundColor3 = Color3.fromRGB(255, 140, 0)
+                statusLabel.Text = "Trạng thái: Đạt mục tiêu, đã dừng tự động"
+            end
+        end
+    end
+end)
+
+updateProgress()
